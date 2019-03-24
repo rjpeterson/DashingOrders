@@ -5,7 +5,7 @@ library(plyr)
 setwd("D:/My Documents/Dashing/orders")
 
 #put all files in folder into data frame
-file_names <- dir() 
+file_names <- dir()
 df1 <- do.call(rbind.fill,lapply(file_names,read.csv))
 
 #disable scientific notation
@@ -32,7 +32,7 @@ quantities.sum <- ddply(part.numbers.and.quantities, "Part.No", numcolwise(sum))
 df1 <- df1[!duplicated(df1$Part.No), ]
 
 #re-merge part descriptions and quantities ordered
-df1 <- merge(df1, quantities.sum, by = "Part.No") 
+df1 <- merge(df1, quantities.sum, by = "Part.No")
 
 #remove quantities under 2
 high.quantity <- subset(df1, Quantity >= 5)
@@ -44,7 +44,7 @@ high.quantity <- subset(df1, Quantity*Price >=50)
 
 #sort in alphabetical order
 high.quantity <- high.quantity[order(high.quantity$Products.Description),]
-        
+
 #reorder columns
 high.quantity <- high.quantity[ , c(1,4,2,3,5,6)]
 
@@ -60,10 +60,3 @@ high.quantity <- select(high.quantity, -Quantity)
 #write to .csv in designated directory
 setwd("D:/My Documents/Dashing")
 write.csv(high.quantity, file="CommonItems.csv", row.names = FALSE)
-
-
-
-
-
-
-
